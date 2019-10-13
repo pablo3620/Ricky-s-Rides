@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Ricky’s Rides - Online Reservations</title>
+    <script src="radioButtons.js"></script>
+    <script src="script.js"></script>
+    <link href="style.css" rel="stylesheet">
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/7.1.0/firebase.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+    <script src="https://www.gstatic.com/firebasejs/7.1.0/firebase-analytics.js"></script>
+
+    <script>
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+            apiKey: "AIzaSyBeEPUGdJRIctu4Fh8nMwxCJ7Yeuyg3jQU",
+            authDomain: "ricky-s-rides-e579f.firebaseapp.com",
+            databaseURL: "https://ricky-s-rides-e579f.firebaseio.com",
+            projectId: "ricky-s-rides-e579f",
+            storageBucket: "",
+            messagingSenderId: "1066351006642",
+            appId: "1:1066351006642:web:5e09bb810ccffd5f398aab",
+            measurementId: "G-CLS0ZGXVPB"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        firebase.analytics();
+    </script>
+</head>
+
+<body onload="onLoad()">
+    <div class="nav">
+        <a href="index.html" class="nav_name">Ricky’s Rides</a>
+        <img src="images/ricky's_rides_transparent_car_only.png" alt="Ricky’s Rides logo">
+    </div>
+    <div class="main_page">
+        <div class="content" data-selected="true" data-done="false">
+            <div class="info_bar" id="timeInfo">
+                Rental Times: <div class="output" id="timesInfoOutput"></div>
+            </div>
+            <div class="flex">
+                <div class="input col2">
+                    <h4>Pick up Date</h4>
+                    <input type="date" id="pickupDate" oninput="timesCheck()" required>
+                </div>
+                <div class="input col2">
+                    <h4>Number of Days (Max 14)</h4>
+                    <div id="addDay" onclick="count(1)">
+                        <button id="subtractDay" onclick="count(-2)">&#8722;
+                            <input type="number" id="NoDay" oninput="timesCheck()" required value="1" onclick="count(1)">
+                        </button>&#43;
+                    </div>
+                </div>
+            </div>
+            <button disabled id="timeButton" onclick="radioButton(1, 'content')">Confirm</button>
+        </div>
+        <div class="content" data-selected="false" data-done="false">
+            <div class="info_bar" id="modelInfo">
+                Car Model: <div class="output" id="modelInfoOutput"></div>
+            </div>
+            <div class="flex cards">
+                <div class="car_model card" data-selected="false" data-info="Nissan Tiida" data-price="18" onclick="carModel(0)">
+                    <h4>Nissan Tiida</h4>
+                    <div class="img_container">
+                        <img alt="image of Nissan Tiida" src="images/Nissan Tida.png">
+                    </div>
+                    <p>Cost: $18 per day</p>
+                </div>
+                <div class="car_model card" data-selected="false" data-info="Suzuki Swift" data-price="18" onclick="carModel(1)">
+                    <h4>Suzuki Swift</h4>
+                    <div class="img_container">
+                        <img alt="image of Suzuki Swift" src="images/suzuki Swift.png">
+                    </div>
+                    <p>Cost: $18 per day</p>
+                </div>
+                <div class="car_model card" data-selected="false" data-info="Mazda 3" data-price="23" onclick="carModel(2)">
+                    <h4>Mazda 3</h4>
+                    <div class="img_container">
+                        <img alt="image of Mazda 3" src="images/Mazda 3.png">
+                    </div>
+                    <p>Cost: $23 per day</p>
+                </div>
+                <div class="car_model card" data-selected="false" data-info="Holden Trax" data-price="41" onclick="carModel(3)">
+                    <h4>Holden Trax</h4>
+                    <div class="img_container">
+                        <img alt="image of Holden Trax" src="images/Holden Trax.png">
+                    </div>
+                    <p>Cost: $41 per day</p>
+                </div>
+                <div class="car_model card" data-selected="false" data-info="Holden Captiva" data-price="52" onclick="carModel(4)">
+                    <h4>Holden Captiva </h4>
+                    <div class="img_container">
+                        <img alt="image of Holden Captiva" src="images/Holden Captiva.png">
+                    </div>
+                    <p>Cost: $52 per day</p>
+                </div>
+                <div class="car_model card" data-selected="false" data-info="Toyota Estima" data-price="62" onclick="carModel(5)">
+                    <h4>Toyota Estima</h4>
+                    <div class="img_container">
+                        <img alt="image of Toyota Estima" src="images/Toyota Estima.png">
+                    </div>
+                    <p>Cost: $62 per day</p>
+                </div>
+                <div class="car_model card" data-selected="false" data-info="Nissan Leaf" data-price="89" onclick="carModel(6)">
+                    <h4>Nissan Leaf</h4>
+                    <div class="img_container">
+                        <img alt="image of Nissan Leaf" src="images/Nissan Caravan.png">
+                    </div>
+                    <p>Cost: $89 per day</p>
+                </div>
+            </div>
+            <button disabled id="modelButton" onclick="radioButton(2, 'content')">Select</button>
+        </div>
+        <div class="content" data-selected="false" data-done="false">
+            <div class="info_bar" id="extrasInfo">
+                Extras: <div class="output" id="extrasInfoOutput"></div>
+            </div>
+            <div class="flex cards">
+                <div class="extras0 extras card" data-selected="false" data-info="Snow chains" data-price="60"
+                    onclick="extras(0, 'extras0')">
+                    <h4>Snow chains</h4>
+                    <div class="img_container">
+                        <img alt="Car on Snow" src="images/snow_chain.jpg">
+                    </div>
+                    <p>Cost: $60</p>
+                </div>
+                <div class="extras1 extras card" data-selected="false" data-info="Roof rack" data-price="90" onclick="extras(0,'extras1')">
+                    <h4>Roof rack</h4>
+                    <div class="img_container">
+                        <img alt="Man Loading roof rack" src="images/roof_rack.jpg">
+                    </div>
+                    <p>Cost: $90</p>
+                </div>
+                <div class="extras2 extras card" data-selected="false" data-info="Bike rack" data-price="120" onclick="extras(0,'extras2')">
+                    <h4>Bike rack (fits max 3 bikes)</h4>
+                    <div class="img_container">
+                        <img alt="Man Loading bike on Bike rack" src="images/bike_rack.jpg">
+                    </div>
+                    <p>Cost: $120</p>
+                </div>
+                <div class="extras3 extras card" data-selected="false" data-info="GPS" data-price="35" onclick="extras(0,'extras3')">
+                    <h4>GPS</h4>
+                    <div class="img_container">
+                        <img alt="image of GPS" src="images/GPS.jpg">
+                    </div>
+                    <p>Cost: $35</p>
+                </div>
+                <div class="extras4 extras card" data-selected="false" data-info="Child Booster Seat" data-price="50"
+                    onclick="extras(0,'extras4')">
+                    <h4>Child Booster Seat</h4>
+                    <div class="img_container">
+                        <img alt="Child in Booster Seat" src="images/child_seat.jpg">
+                    </div>
+                    <p>Cost: $50</p>
+                </div>
+                <div class="extras0 extras1 extras2 extras3 extras4 extras5 extras card" data-selected="false"
+                    data-info="No Extras Selected" data-price="0" onclick="extras(5, 'extras')">
+                    <h4>None</h4>
+                    <div class="img_container">
+                        <img alt="Cross" src="images/cross.png">
+                    </div>
+                </div>
+            </div>
+            <button disabled id="extraButton" onclick="radioButton(3, 'content')">Select</button>
+        </div>
+        <div class="content" data-selected="false" data-done="false">
+            <div class="info_bar" id="driverInfo">
+                Driver Information
+            </div>
+            <div class="flex">
+                <div class="input col3">
+                    <h4>First Name</h4>
+                    <input id="firstName" required oninput="infoCheck()">
+                </div>
+                <div class="input col3">
+                    <h4>Last Name</h4>
+                    <input id="lastName" required oninput="infoCheck()">
+                </div>
+                <div class="input col3">
+                    <h4>Age</h4>
+                    <input type="number" id="age" required oninput="infoCheck()">
+                </div>
+            </div>
+            <div class="flex">
+                <div class="input col3">
+                    <h4>Phone No.</h4>
+                    <input id="phoneNo" type="number" required oninput="infoCheck()">
+                </div>
+                <div class="input col3x2">
+                    <h4>Email Address</h4>
+                    <input type="email" id="email" required oninput="infoCheck()">
+                </div>
+            </div>
+            <button disabled id="infoButton" onclick="radioButton(4, 'content')">Submit</button>
+        </div>
+        <div class="content" data-selected="false" data-done="false">
+            <div class="info_bar" id="confirmInfo">
+                Confirmation
+            </div>
+            <div class="flex">
+                <div class="col3">
+                    <h4>Personal Details</h4>
+                    <ul>
+                        <li>Name: <div class="output" id="nameOutput"></div>
+                        </li>
+                        <li>Driver Age: <div class="output" id="ageOutput"></div>
+                        </li>
+                        <li>Phone No.: <div class="output" id="phoneOutput"></div>
+                        </li>
+                        <li>Email Address: <div class="output" id="emailOutput"></div>
+                        </li>
+                        <li>Car Pickup Date: <div class="output" id="pickupOutput"></div>
+                        </li>
+                        <li>Car Return Date: <div class="output" id="returnOutput"></div>
+                        </li>
+                        <li>Car Model: <div class="output" id="modelOutput"></div>
+                        </li>
+                        <li>Selected Extras: <div class="output" id="extrasSelectedOutput"></div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col3">
+                    <h4>Cost Breakdown</h4>
+                    <ul>
+                        <li>Cost Per Day: $<div class="output" id="carCostOutput"></div>
+                        </li>
+                        <li>Insurance Cost Per Day: $<div class="output" id="insuranceCostOutput">20</div>
+                        </li>
+                        <li>Number of Days: <div class="output" id="NoDayOutput"></div> Days
+                        </li>
+                        <li>Extras Cost: $<div class="output" id="extrasCostOutput"></div>
+                        </li>
+                        <li>Booking Fee: $<div class="output" id="bookingFeeOutput">50</div>
+                        </li>
+                        <li>Total Cost: $<div class="output" id="totalCostOutput"></div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <button id="ConfirmButton" onclick="confirm()">Confirm</button>
+        </div>
+    </div>
+</body>
+
+
+</html>
