@@ -19,11 +19,11 @@ function count(number) {
     console.log(parseInt(NoDay.value) + parseInt(number))
     NoDay.value = parseInt(NoDay.value) + parseInt(number);
     if (NoDay.value >= 14) {
-        addDay.setAttribute('onclick',  '');
+        addDay.setAttribute('onclick', '');
     } else if (NoDay.value <= 1) {
-        subtractDay.disabled= true;
+        subtractDay.disabled = true;
     } else {
-        addDay.setAttribute('onclick',  'count(1)');
+        addDay.setAttribute('onclick', 'count(1)');
         subtractDay.disabled = false;
     }
 }
@@ -41,7 +41,7 @@ function extras(number, className) {
     document.getElementById("extraButton").disabled = false;
     extrasSelectedOutput.innerHTML = extrasOutput();
     extrasInfoOutput.innerHTML = extrasOutput();
-    totalCostOutput.innerHTML = parseInt(carCostOutput.innerHTML) * parseInt(NoDayOutput.innerHTML) + parseInt(insuranceCostOutput.innerHTML) + parseInt(extrasCostOutput.innerHTML) + parseInt(bookingFeeOutput.innerHTML);
+    totalCostOutput.innerHTML = parseInt(carCostOutput.innerHTML) * parseInt(NoDayOutput.innerHTML) + parseInt(insuranceCostOutput.innerHTML) * parseInt(NoDay.value) + parseInt(extrasCostOutput.innerHTML) + parseInt(bookingFeeOutput.innerHTML);
 }
 
 //function to display extras 
